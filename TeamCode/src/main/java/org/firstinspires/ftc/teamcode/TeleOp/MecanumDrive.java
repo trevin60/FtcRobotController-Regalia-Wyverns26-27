@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 
@@ -50,6 +47,11 @@ public class MecanumDrive extends LinearOpMode {
             robot.backLeft.setPower((driveRotation - strafeRotation + turn) / denominator);
             robot.backRight.setPower((driveRotation + strafeRotation - turn) / denominator);
             //Variable names should start with a lower case letter. Unless it's a class.
+
+
+            // Make the intake continuous
+            // Make the flywheel always stay at a certain speed until told to fire
+            //
 
         }
     }

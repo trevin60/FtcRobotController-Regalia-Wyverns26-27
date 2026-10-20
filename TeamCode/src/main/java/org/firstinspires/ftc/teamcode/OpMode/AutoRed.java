@@ -1,21 +1,20 @@
 package org.firstinspires.ftc.teamcode.OpMode;
-import static java.lang.Thread.sleep;
-
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
+import org.firstinspires.ftc.teamcode.Subsystems.Tools;
+
 
 @Autonomous
 public class AutoRed extends LinearOpMode{
-    public DcMotorEx frontLeft, frontRight, backRight, backLeft;
 
     public IMU imu;
     public RobotClass robotClass;
     @Override
     public void runOpMode() throws InterruptedException {
+        robotClass = new RobotClass(hardwareMap);
+        Tools Tools = new Tools(hardwareMap);
 
         waitForStart();
 
@@ -58,25 +57,45 @@ public class AutoRed extends LinearOpMode{
 
             // Actual code
 
-            frontLeft.setPower(0.5);
-            frontRight.setPower(0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(0.5);
+            robotClass.frontLeft.setPower(0.5);
+            robotClass.frontRight.setPower(0.5);
+            robotClass.backLeft.setPower(0.5);
+            robotClass.backRight.setPower(0.5);
 
             sleep(3000);
 
-            //Turn
+            // Turn Right
 
-            frontLeft.setPower(0.5);
-            frontRight.setPower(-0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(-0.5);
+            robotClass.frontLeft.setPower(0.5);
+            robotClass.frontRight.setPower(-0.5);
+            robotClass.backLeft.setPower(0.5);
+            robotClass.backRight.setPower(-0.5);
 
             sleep(500);
 
             //limelight for the AprilTags
 
-            //START CODING THE SHOOTER
+            Tools.shooter.setPower(0.5);
+
+            sleep(1000);
+
+            // Turn Right
+
+            robotClass.frontLeft.setPower(0.5);
+            robotClass.frontRight.setPower(-0.5);
+            robotClass.backLeft.setPower(0.5);
+            robotClass.backRight.setPower(-0.5);
+
+            sleep(500);
+
+            // Forward
+
+            robotClass.frontLeft.setPower(0.5);
+            robotClass.frontRight.setPower(0.5);
+            robotClass.backLeft.setPower(0.5);
+            robotClass.backRight.setPower(0.5);
+
+            sleep(3000);
 
             }
         }

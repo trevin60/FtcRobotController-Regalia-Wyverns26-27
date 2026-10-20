@@ -24,10 +24,6 @@ public class RobotClass {
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-// For the program to use the shooter
-
-shooter =hardwareMap.get(DcMotorEx.class, "shooter");
-
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match your robot
