@@ -26,8 +26,7 @@ public class RobotClass {
 
 // For the program to use the shooter
 
-hardwareMap.get(DcMotorEx.class, "shooter");
-        shooter =
+shooter =hardwareMap.get(DcMotorEx.class, "shooter");
 
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(IMU.class, "imu");
