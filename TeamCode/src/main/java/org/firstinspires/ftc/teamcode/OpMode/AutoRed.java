@@ -23,43 +23,25 @@ public class AutoRed extends LinearOpMode {
             // Start continuous intake
             tools.intake.setPower(0.8);
 
-            // Forward
-            robotClass.frontLeft.setPower(0.5);
-            robotClass.frontRight.setPower(0.5);
-            robotClass.backLeft.setPower(0.5);
-            robotClass.backRight.setPower(0.5);
-            sleep(3000);
+            // Drive forward 24 inches using encoders
+            robotClass.encoderDrive(this, 0.5, 24, 24, 5.0);
 
-            // Turn Right
-            robotClass.frontLeft.setPower(0.5);
-            robotClass.frontRight.setPower(-0.5);
-            robotClass.backLeft.setPower(0.5);
-            robotClass.backRight.setPower(-0.5);
-            sleep(500);
+            // Turn Right using encoders (+8 inches left side, -8 inches right side)
+            robotClass.encoderDrive(this, 0.5, 8, -8, 3.0);
 
             // Shooter for AprilTags
             tools.shooter.setPower(0.5);
             sleep(1000);
+            tools.shooter.setPower(0);
 
-            // Turn Right
-            robotClass.frontLeft.setPower(0.5);
-            robotClass.frontRight.setPower(-0.5);
-            robotClass.backLeft.setPower(0.5);
-            robotClass.backRight.setPower(-0.5);
-            sleep(500);
+            // Turn Right again
+            robotClass.encoderDrive(this, 0.5, 8, -8, 3.0);
 
-            // Forward
-            robotClass.frontLeft.setPower(0.5);
-            robotClass.frontRight.setPower(0.5);
-            robotClass.backLeft.setPower(0.5);
-            robotClass.backRight.setPower(0.5);
-            sleep(3000);
+            // Drive forward 24 inches
+            robotClass.encoderDrive(this, 0.5, 24, 24, 5.0);
 
             // Stop all motors
-            robotClass.frontLeft.setPower(0);
-            robotClass.frontRight.setPower(0);
-            robotClass.backLeft.setPower(0);
-            robotClass.backRight.setPower(0);
+            robotClass.stopMotors();
             tools.shooter.setPower(0);
             tools.intake.setPower(0);
         }
