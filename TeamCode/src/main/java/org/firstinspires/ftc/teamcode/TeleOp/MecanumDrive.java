@@ -49,11 +49,13 @@ public class MecanumDrive extends LinearOpMode {
             //Variable names should start with a lower case letter. Unless it's a class.
 
 
-            // Make the intake continuous
             // Make the flywheel always stay at a certain speed until told to fire
-            //
 
-
+//while (True);
+    //if(triger pressed)
+    //    flywheel.setpower(1.0)
+    //else
+    //    flywheel.setpower(0.8)
 
         }
     }
