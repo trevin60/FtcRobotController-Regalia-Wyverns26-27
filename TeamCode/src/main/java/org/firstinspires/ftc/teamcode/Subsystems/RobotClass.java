@@ -118,5 +118,6 @@ public class RobotClass {
     }
 
     public void encoderDrive(AutoRed autoRed, double v, int i, int i1, double v1) {
+
     }
 }
