@@ -18,6 +18,11 @@ public class AutoBlue extends LinearOpMode{
 
         waitForStart();
 
+        // Makes a continuous intake
+
+        while (true);
+            intake.setPower(0.8);
+
         while (opModeIsActive()) {
 
             // Turning Left
