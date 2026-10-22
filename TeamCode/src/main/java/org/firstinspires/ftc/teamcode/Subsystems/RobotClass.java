@@ -39,10 +39,7 @@ public class RobotClass {
     }
 }
 
-// 1. Drive forward
-// 2. Line up with Apriltags and shoot the balls
-// 3. Park our robot in designated parking zone
-// 4. Wait until the Hive tips over, and start collecting
+
 
 
 

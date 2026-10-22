@@ -7,9 +7,7 @@ public class Tools {
     public Tools(HardwareMap hardwareMap) {
         shooter =  hardwareMap.get(DcMotorEx.class, "shooter");
         intake =  hardwareMap.get(DcMotorEx.class, "intake");
-        flywheel = 
-hardwareMap.get(DcMotorEx.class, "flywheel);
-
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
 
     }
 

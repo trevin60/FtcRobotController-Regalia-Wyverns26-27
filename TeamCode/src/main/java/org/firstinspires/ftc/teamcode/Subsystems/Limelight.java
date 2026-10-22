@@ -1,42 +1,69 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 public class Limelight {
-    public void runOpMode() throws InterruptedException
-    {
-        Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
+    private final Limelight3A limelight;
 
-        telemetry.setMsTransmissionInterval(11);
-
+    public Limelight(HardwareMap hardwareMap) {
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(0);
-
-        /*
-         * Starts polling for data.
-         */
-
-
         limelight.start();
-        while (opModeIsActive()){
-            LLResult result = limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()) {
-                    Pose3D botpose = result.getBotpose();
-                    telemetry.addData("tx", result.getTx());
-                    telemetry.addData("ty", result.getTy());
-                    telemetry.addData("Botpose", botpose.toString());
-                }
-            }
-        }
     }
 
-    private boolean opModeIsActive() {
-        return false;
+     //Gets the latest result from the Limelight camera.
+    public LLResult getLatestResult() {
+        return limelight.getLatestResult();
+    }
+
+
+     //Checks if the Limelight currently sees a AprilTag.
+
+    public boolean hasTarget() {
+        LLResult result = getLatestResult();
+        return result != null && result.isValid();
+    }
+
+     //Returns the 3D position (x, y, z, orientation) of the robot on the field.
+     //Returns null if no valid target or AprilTag is in view.
+
+    public Pose3D getBotPose() {
+        LLResult result = getLatestResult();
+        if (result != null && result.isValid()) {
+            return result.getBotpose();
+        }
+        return null;
+    }
+
+     //Returns the horizontal angle offset (tx) to the target in degrees.
+
+    public double getTx() {
+        LLResult result = getLatestResult();
+        if (result != null && result.isValid()) {
+            return result.getTx();
+        }
+        return 0.0;
+    }
+
+     //Returns the vertical angle offset (ty) to the target in degrees.
+
+    public double getTy() {
+        LLResult result = getLatestResult();
+        if (result != null && result.isValid()) {
+            return result.getTy();
+        }
+        return 0.0;
+    }
+
+     //Stops the Limelight pipeline when the OpMode ends.
+
+    public void stop() {
+        if (limelight != null) {
+            limelight.stop();
+        }
     }
 }
