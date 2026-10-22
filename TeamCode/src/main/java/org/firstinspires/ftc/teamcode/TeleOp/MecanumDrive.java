@@ -47,16 +47,6 @@ public class MecanumDrive extends LinearOpMode {
             robot.backLeft.setPower((driveRotation - strafeRotation + turn) / denominator);
             robot.backRight.setPower((driveRotation + strafeRotation - turn) / denominator);
             //Variable names should start with a lower case letter. Unless it's a class.
-
-
-            // Make the flywheel always stay at a certain speed until told to fire
-
-//while (True);
-    //if(triger pressed)
-    //    flywheel.setpower(1.0)
-    //else
-    //    flywheel.setpower(0.8)
-
         }
     }
 
