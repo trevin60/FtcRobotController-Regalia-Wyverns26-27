@@ -16,11 +16,12 @@ public class AutoBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         robotClass = new RobotClass(hardwareMap);
         tools = new Tools(hardwareMap);
         limelight = new Limelight(hardwareMap);
 
-        telemetry.addLine("AutoBlue ready. Verify Limelight pipeline 0 is the BIOBUZZ AprilTag pipeline.");
+        telemetry.addLine("AutoBlue ready. Verify Limelight pipeline 0 is the BIO BUZZ AprilTag pipeline.");
         telemetry.update();
         waitForStart();
 

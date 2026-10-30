@@ -20,7 +20,7 @@ public class AutoRed extends LinearOpMode {
         tools = new Tools(hardwareMap);
         limelight = new Limelight(hardwareMap);
 
-        telemetry.addLine("AutoRed ready. Verify Limelight pipeline 0 is the BIOBUZZ AprilTag pipeline.");
+        telemetry.addLine("AutoRed ready. Verify Limelight pipeline 0 is the BIO BUZZ AprilTag pipeline.");
         telemetry.update();
         waitForStart();
 
