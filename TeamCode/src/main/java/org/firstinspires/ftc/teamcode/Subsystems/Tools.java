@@ -20,7 +20,7 @@ public class Tools {
      //Converts a valid camera-to-AprilTag distance into shooter motor power using linear
      //interpolation between the tuning points above. Values beyond the table are clamped.
      //Returns NaN for an invalid distance so callers can avoid firing on stale/missing data.
-    public double getShooterPowerForDistance(double distanceInches) {
+    public double getShooterPowerForDistance(double distanceInches) {//RPM !!!!!!!!!!!!!!!!!
         if (!Double.isFinite(distanceInches) || distanceInches <= 0.0) {
             return Double.NaN;
         }

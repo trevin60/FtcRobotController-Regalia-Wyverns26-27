@@ -36,7 +36,7 @@ public class Limelight {
      //Returns NaN when no valid AprilTag pose is available. This is a camera-to-tag range,
      //so shooter power still needs to be calibrated on the physical robot.
 
-    public double getDistanceInches() {
+    public double getDistanceInches() {//dshfikleqwsiulfgv
         LLResult result = getLatestResult();
         if (result == null || !result.isValid()) {
             return Double.NaN;
@@ -75,28 +75,19 @@ public class Limelight {
     //Returns the 3D position of the robot on the field, or null if unavailable
     public Pose3D getBotPose() {
         LLResult result = getLatestResult();
-        if (result != null && result.isValid()) {
             return result.getBotpose();
-        }
-        return null;
     }
 
     //Returns the horizontal angle offset (tx) to the target in degrees
     public double getTx() {
         LLResult result = getLatestResult();
-        if (result != null && result.isValid()) {
             return result.getTx();
-        }
-        return 0.0;
     }
 
     //Returns the vertical angle offset (ty) to the target in degrees
     public double getTy() {
         LLResult result = getLatestResult();
-        if (result != null && result.isValid()) {
             return result.getTy();
-        }
-        return 0.0;
     }
 
     //Stops the Limelight pipeline when the OpMode ends

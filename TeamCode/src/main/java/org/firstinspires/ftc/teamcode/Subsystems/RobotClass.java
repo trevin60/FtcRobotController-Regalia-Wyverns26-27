@@ -56,7 +56,7 @@ public class RobotClass {
     //Drives each wheel the requested distance using encoders and a timeout
     public void encoderDrive(LinearOpMode opMode, double speed,
                              double flInches, double frInches,
-                             double blInches, double brInches, double timeoutS) {
+                             double blInches, double brInches) {
         if (!opMode.opModeIsActive()) {
             return;
         }
@@ -84,7 +84,7 @@ public class RobotClass {
 
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-        while (opMode.opModeIsActive() && runtime.seconds() < timeoutS
+        while (opMode.opModeIsActive()
                 && (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy())) {
             opMode.telemetry.addData("Targets", "FL:%d FR:%d BL:%d BR:%d",
                     newFLTarget, newFRTarget, newBLTarget, newBRTarget);

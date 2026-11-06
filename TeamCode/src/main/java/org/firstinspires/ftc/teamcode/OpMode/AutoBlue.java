@@ -30,10 +30,10 @@ public class AutoBlue extends LinearOpMode {
                 tools.intake.setPower(0.8);
 
                 // Drive forward 24 inches.
-                robotClass.encoderDrive(this, 0.5, 24, 24, 24, 24, 5.0);
+                robotClass.encoderDrive(this, 0.5, 24, 24, 24, 24);
 
                 // Turn left: left wheels backward, right wheels forward.
-                robotClass.encoderDrive(this, 0.5, -8, 8, -8, 8, 3.0);
+                robotClass.encoderDrive(this, 0.5, -8, 8, -8, 8);
 
                 // Use a fresh valid AprilTag range to choose shooter power.
                 double distanceInches = limelight.getDistanceInches();
@@ -51,8 +51,8 @@ public class AutoBlue extends LinearOpMode {
                 }
 
                 // Turn left again, then drive forward 24 inches.
-                robotClass.encoderDrive(this, 0.5, -8, 8, -8, 8, 3.0);
-                robotClass.encoderDrive(this, 0.5, 24, 24, 24, 24, 5.0);
+                robotClass.encoderDrive(this, 0.5, -8, 8, -8, 8);
+                robotClass.encoderDrive(this, 0.5, 24, 24, 24, 24);
             }
         } finally {
             robotClass.stopMotors();
