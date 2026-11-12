@@ -16,26 +16,23 @@ public class Limelight {
 
     public Limelight(HardwareMap hardwareMap) {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        // Pipeline 0 must be configured as the BIO BUZZ AprilTag pipeline on the Limelight.
+        // Pipeline 0 must be configured as the AprilTag pipeline on the Limelight.
         limelight.pipelineSwitch(0);
         limelight.start();
     }
 
-    //Gets the latest result from the Limelight camera
+    // Gets the latest result from the Limelight camera
     public LLResult getLatestResult() {
         return limelight.getLatestResult();
     }
 
-    //Returns true when the Limelight has a valid current result
+    // Returns true when the Limelight has a valid current result
     public boolean hasTarget() {
         LLResult result = getLatestResult();
         return result != null && result.isValid() && !result.getFiducialResults().isEmpty();
     }
 
-     //Returns the distance in inches from the camera to the closest detected AprilTag.
-     //Returns NaN when no valid AprilTag pose is available. This is a camera-to-tag range,
-     //so shooter power still needs to be calibrated on the physical robot.
-
+    // Returns the distance in inches from the camera to the closest detected AprilTag.
     public double getDistanceInches() {
         LLResult result = getLatestResult();
         if (result == null || !result.isValid()) {
@@ -72,26 +69,28 @@ public class Limelight {
         return Double.isFinite(closestDistance) ? closestDistance : Double.NaN;
     }
 
-    //Returns the 3D position of the robot on the field, or null if unavailable
+    // Returns the 3D position of the robot on the field, or null if unavailable
     public Pose3D getBotPose() {
         LLResult result = getLatestResult();
-            return result.getBotpose();
+        return (result != null && result.isValid()) ? result.getBotpose() : null;
     }
 
-    //Returns the horizontal angle offset (tx) to the target in degrees
+    // Returns the horizontal angle offset (tx) to the target in degrees
     public double getTx() {
         LLResult result = getLatestResult();
-            return result.getTx();
+        return (result != null && result.isValid()) ? result.getTx() : 0.0;
     }
 
-    //Returns the vertical angle offset (ty) to the target in degrees
+    // Returns the vertical angle offset (ty) to the target in degrees
     public double getTy() {
         LLResult result = getLatestResult();
-            return result.getTy();
+        return (result != null && result.isValid()) ? result.getTy() : 0.0;
     }
 
-    //Stops the Limelight pipeline when the OpMode ends
+    // Stops the Limelight pipeline when the OpMode ends
     public void stop() {
-        limelight.stop();
+        if (limelight != null) {
+            limelight.stop();
+        }
     }
 }

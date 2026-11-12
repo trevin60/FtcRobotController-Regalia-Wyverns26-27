@@ -37,7 +37,7 @@ public class MecanumDrive extends LinearOpMode {
                 gamepad1.rumble(200);
             }
 
-            // Field-centric mecanum drive: Moving stick at 20° drives the robot at 20° relative to driver!
+            // Field-centric mecanum drive
             robot.driveFieldCentric(strafe, drive, turn);
 
             // =========================================================
