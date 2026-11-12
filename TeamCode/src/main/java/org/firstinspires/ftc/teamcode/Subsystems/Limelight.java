@@ -36,7 +36,7 @@ public class Limelight {
      //Returns NaN when no valid AprilTag pose is available. This is a camera-to-tag range,
      //so shooter power still needs to be calibrated on the physical robot.
 
-    public double getDistanceInches() {//dshfikleqwsiulfgv
+    public double getDistanceInches() {
         LLResult result = getLatestResult();
         if (result == null || !result.isValid()) {
             return Double.NaN;

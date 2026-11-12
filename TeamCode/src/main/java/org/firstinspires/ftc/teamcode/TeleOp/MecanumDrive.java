@@ -1,54 +1,74 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
+import org.firstinspires.ftc.teamcode.Subsystems.Tools;
 
-@TeleOp
+@TeleOp(name = "MecanumDrive", group = "TeleOp")
 public class MecanumDrive extends LinearOpMode {
-    RobotClass robot;
-
-    double robotHeading;
+    private RobotClass robot;
+    private Tools tools;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //defines robot Directories
+        // Driver 1 (Gamepad 1): Drivetrain
+        // Driver 2 (Gamepad 2): Subsystems / Tools
         robot = new RobotClass(hardwareMap);
-        //Variable names should not be capitalized replace 'robot' with just 'robot'. Only classes should be capitalized.
-        //makes the play button appear
+        tools = new Tools(hardwareMap);
+
+        telemetry.addData("Status", "Initialized. Gamepad1 = Chassis | Gamepad2 = Tools");
+        telemetry.update();
+
         waitForStart();
-        while (!isStopRequested()) {
-            //define basic
-            double strafe = gamepad1.left_stick_x; //X_AXIS_VARIABLE
-            double drive = -gamepad1.right_stick_y; //the Y axis is negative, not the x-axis. //must be negative Y_AXIS_VARIABLE
-            double turn = -gamepad1.left_trigger + gamepad1.right_trigger;
 
-            robotHeading = robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        while (opModeIsActive()) {
+            // =========================================================
+            // GAMEPAD 1 (DRIVER): Drivetrain & Chassis Control
+            // =========================================================
+            double strafe = gamepad1.left_stick_x;
+            double drive = -gamepad1.left_stick_y; // Invert Y stick so forward is positive
+            double turn = gamepad1.right_stick_x;
 
-            //Rotate the movement direction counter to the bot's rotation
-            double driveRotation = (strafe) * Math.sin(-robotHeading) + (drive) * Math.cos(-robotHeading);
-            double strafeRotation = (strafe) * Math.cos(-robotHeading) - (drive) * Math.sin(-robotHeading);
+            // Reset field-centric orientation when Options or Back button is pressed on gamepad1
+            if (gamepad1.options || gamepad1.back) {
+                robot.resetYaw();
+                gamepad1.rumble(200);
+            }
 
-            //driveRotation is the Y AXIS and should be: X_AXIS_VARIABLE (strafe) * Math.sin(-robotHeading) + Y_AXIS_VARIABLE (drive) * Math.cos(-robotHeading)
-            //   strafeRotation is the X AXIS and should be: X_AXIS_VARIABLE (strafe) * Math.cos(-robotHeading) - Y_AXIS_VARIABLE (drive) * Math.sin(-robotHeading)
+            // Field-centric mecanum drive: Moving stick at 20° drives the robot at 20° relative to driver!
+            robot.driveFieldCentric(strafe, drive, turn);
 
-            double maxMotorPower = Math.abs(driveRotation) + Math.abs(strafeRotation) + Math.abs(turn); //find the max power
-            double denominator = Math.max(maxMotorPower, 1); // used in making all of the powers smaller
+            // =========================================================
+            // GAMEPAD 2 (OPERATOR): Subsystems & Tools Control
+            // =========================================================
+            // Intake Control: Right trigger = Intake, Left trigger = Outtake
+            if (gamepad2.right_trigger > 0.1) {
+                tools.intake.setPower(gamepad2.right_trigger);
+            } else if (gamepad2.left_trigger > 0.1) {
+                tools.intake.setPower(-gamepad2.left_trigger);
+            } else {
+                tools.intake.setPower(0);
+            }
 
-            //calculate the denominator after you do the matrix rotation. It should be the last thing you calculate after you manipulate all the variables (Put these two line after line 38)
-            // Naming variables should help describe what they are used for not just what they contain. I can see that it is the sunOfDrivePlusStrafePlusTurn but why is that?
+            // Shooter Control: Right Bumper
+            if (gamepad2.right_bumper) {
+                tools.shooter.setPower(0.85);
+            } else {
+                tools.shooter.setPower(0);
+            }
 
-            //I know they put it in the wiki but don't just throw lines of code in that you aren't sure of what they do.
-            // The intended purpose is to make strafing more aggressive to adjust for the increased motor friction when strafing.
-            // but your code is adjusting the Y-AXIS power which is not helpful. Try to understand what code is intended for before implementing, with some exceptions of course.
+            // Flywheel Control: Left Bumper
+            if (gamepad2.left_bumper) {
+                tools.flywheel.setPower(1.0);
+            } else {
+                tools.flywheel.setPower(0);
+            }
 
-            robot.frontLeft.setPower((driveRotation + strafeRotation + turn) / denominator);
-            robot.frontRight.setPower((driveRotation - strafeRotation - turn) / denominator); // strafe is negative because of the wheels orientation
-            robot.backLeft.setPower((driveRotation - strafeRotation + turn) / denominator);
-            robot.backRight.setPower((driveRotation + strafeRotation - turn) / denominator);
-            //Variable names should start with a lower case letter. Unless it's a class.
-
+            // Display Telemetry
+            telemetry.addData("Heading (deg)", "%.1f", robot.getHeading());
+            telemetry.update();
         }
     }
-
 }

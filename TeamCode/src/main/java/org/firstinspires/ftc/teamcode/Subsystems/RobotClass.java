@@ -40,7 +40,7 @@ public class RobotClass {
         imu.initialize(parameters);
     }
 
-    //Resets drivetrain encoders and sets them to RUN_USING_ENCODER
+    // Resets drivetrain encoders and sets them to RUN_USING_ENCODER
     public void resetEncoders() {
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -53,7 +53,7 @@ public class RobotClass {
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    //Drives each wheel the requested distance using encoders and a timeout
+    // Drives each wheel the requested distance using encoders and a timeout
     public void encoderDrive(LinearOpMode opMode, double speed,
                              double flInches, double frInches,
                              double blInches, double brInches) {
@@ -102,7 +102,32 @@ public class RobotClass {
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    //Stops power to all drivetrain motors
+
+     // Drives the robot in field-centric mecanum mode using the IMU angle.
+
+    public void driveFieldCentric(double strafe, double drive, double turn) {
+        double robotHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        // Rotate inputs counter to the robot heading
+        double driveRotated = strafe * Math.sin(-robotHeading) + drive * Math.cos(-robotHeading);
+        double strafeRotated = strafe * Math.cos(-robotHeading) - drive * Math.sin(-robotHeading);
+
+        double maxPower = Math.abs(driveRotated) + Math.abs(strafeRotated) + Math.abs(turn);
+        double denominator = Math.max(maxPower, 1.0);
+
+        frontLeft.setPower((driveRotated + strafeRotated + turn) / denominator);
+        frontRight.setPower((driveRotated - strafeRotated - turn) / denominator);
+        backLeft.setPower((driveRotated - strafeRotated + turn) / denominator);
+        backRight.setPower((driveRotated + strafeRotated - turn) / denominator);
+    }
+
+     // Resets IMU heading to 0 degrees.
+
+    public void resetYaw() {
+        imu.resetYaw();
+    }
+
+    // Stops power to all drivetrain motors
     public void stopMotors() {
         frontLeft.setPower(0.0);
         frontRight.setPower(0.0);
