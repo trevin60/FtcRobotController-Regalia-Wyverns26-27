@@ -24,9 +24,7 @@ public class MecanumDrive extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // =========================================================
             // GAMEPAD 1 (DRIVER): Drivetrain & Chassis Control
-            // =========================================================
             double strafe = gamepad1.left_stick_x;
             double drive = -gamepad1.left_stick_y; // Invert Y stick so forward is positive
             double turn = gamepad1.right_stick_x;
@@ -40,9 +38,7 @@ public class MecanumDrive extends LinearOpMode {
             // Field-centric mecanum drive
             robot.driveFieldCentric(strafe, drive, turn);
 
-            // =========================================================
             // GAMEPAD 2 (OPERATOR): Subsystems & Tools Control
-            // =========================================================
             // Intake Control: Right trigger = Intake, Left trigger = Outtake
             if (gamepad2.right_trigger > 0.1) {
                 tools.intake.setPower(gamepad2.right_trigger);
